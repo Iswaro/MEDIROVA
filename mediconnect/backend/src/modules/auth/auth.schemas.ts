@@ -24,7 +24,7 @@ export const registerSchema = z.object({
   lastName: z.string().min(1, 'Last name is required').max(100),
   phone: z
     .string()
-    .regex(/^\+?[1-9]\d{7,14}$/, 'Invalid phone number')
+    .regex(/^\+?[0-9]{9,15}$/, 'Invalid phone number')
     .optional(),
   role: z.enum(['PATIENT', 'PROVIDER'] as [Role, ...Role[]]).default('PATIENT'),
   providerType: ProviderTypeEnum.optional().default('DOCTOR'),
