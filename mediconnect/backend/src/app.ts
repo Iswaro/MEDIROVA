@@ -49,10 +49,11 @@ export function createApp(): Application {
   });
   app.use('/api/', limiter);
 
-  // Auth-specific stricter rate limit
+  // Auth-specific rate limit — relaxed for demo/dev usage
   const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 30,
+    max: 100, // 100 attempts per 15 min (was 30 — caused 429 on demo)
+    skip: () => process.env.NODE_ENV === 'development', // skip in dev entirely
     message: { success: false, message: 'Too many authentication attempts, please try again later.' },
   });
   app.use('/api/v1/auth/login', authLimiter);
